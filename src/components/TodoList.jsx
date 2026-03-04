@@ -1,4 +1,7 @@
-const TodoList = (props) => {
+import { useContext } from "react";
+import { TodoContext } from "../contexts/Todo";
+
+const TodoList = () => {
 	const {
 		filterTerm,
 		setTodoTitle,
@@ -6,7 +9,7 @@ const TodoList = (props) => {
 		setTodoList,
 		setEditMode,
 		setEditableTodo,
-	} = props;
+	} = useContext(TodoContext);
 
 	const filteredTodoList = todoList.filter((todo) => {
 		if (filterTerm === "completed") {
