@@ -4,32 +4,14 @@ import TodoForm from "./components/TodoForm";
 import TodoSection from "./components/TodoSection";
 
 function App() {
-	const [todoTitle, setTodoTitle] = useState("");
-	const [todoList, setTodoList] = useState([]);
-	const [editMode, setEditMode] = useState(false);
-	const [editableTodo, setEditableTodo] = useState(null);
-
 	return (
 		<div className="app">
 			<h2>Todo App</h2>
 
-			<TodoForm
-				editMode={editMode}
-				setTodoList={setTodoList}
-				todoList={todoList}
-				editableTodo={editableTodo}
-				setEditMode={setEditMode}
-				setEditableTodo={setEditableTodo}
-				todoTitle={todoTitle}
-				setTodoTitle={setTodoTitle}
-			/>
-			<TodoSection
-				setTodoTitle={setTodoTitle}
-				todoList={todoList}
-				setTodoList={setTodoList}
-				setEditMode={setEditMode}
-				setEditableTodo={setEditableTodo}
-			/>
+			<TodoForm>
+				<h2>I am children of TodoForm</h2>
+			</TodoForm>
+			<TodoSection />
 		</div>
 	);
 }

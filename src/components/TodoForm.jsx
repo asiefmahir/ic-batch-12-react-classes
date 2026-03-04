@@ -1,4 +1,7 @@
-const TodoForm = (props) => {
+import { useContext } from "react";
+import { TodoContext } from "../contexts/Todo";
+
+const TodoForm = () => {
 	// component has 2 layers
 	// 1) presentation -> html, css
 	// 2) data layer
@@ -14,7 +17,8 @@ const TodoForm = (props) => {
 		setEditableTodo,
 		todoTitle,
 		setTodoTitle,
-	} = props;
+	} = useContext(TodoContext);
+
 	const submitHandler = (event) => {
 		event.preventDefault();
 
@@ -65,6 +69,7 @@ const TodoForm = (props) => {
 				onChange={(event) => setTodoTitle(event.target.value)}
 				// todoTitle = event.target.value
 			/>
+			{/* {props.children} */}
 			<button type="submit">
 				{editMode === true ? "Update Todo" : "Create Todo"}
 			</button>

@@ -1,5 +1,9 @@
-const FilterSection = (props) => {
-	const { filterTerm, setFilterTerm } = props;
+import { useContext } from "react";
+
+import { TodoContext } from "../contexts/Todo";
+
+const FilterSection = () => {
+	const { filterTerm, setFilterTerm } = useContext(TodoContext);
 	return (
 		<select
 			value={filterTerm}
@@ -12,3 +16,5 @@ const FilterSection = (props) => {
 	);
 };
 export default FilterSection;
+
+// ->  reduce method
