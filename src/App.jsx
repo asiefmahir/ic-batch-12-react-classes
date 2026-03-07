@@ -1,9 +1,13 @@
-import { useState } from "react";
 import "./App.css";
 import TodoForm from "./components/TodoForm";
 import TodoSection from "./components/TodoSection";
 
 function App() {
+	// 2 part ->
+	// 1) presentation layer
+	// 2) data layer
+	//  i) props
+	//  ii) state
 	return (
 		<div className="app">
 			<h2>Todo App</h2>

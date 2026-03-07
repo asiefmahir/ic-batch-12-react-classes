@@ -8,57 +8,8 @@ const TodoForm = () => {
 	//      i) props
 	//      ii) state
 
-	const {
-		editMode,
-		setTodoList,
-		todoList,
-		editableTodo,
-		setEditMode,
-		setEditableTodo,
-		todoTitle,
-		setTodoTitle,
-	} = useContext(TodoContext);
-
-	const submitHandler = (event) => {
-		event.preventDefault();
-
-		if (!todoTitle.trim()) {
-			return alert(`Please enter a valid todo Title`);
-		}
-
-		editMode === true ? updateTitleHandler() : createHandler();
-	};
-
-	const createHandler = () => {
-		const newTodo = {
-			id: Date.now() + "",
-			title: todoTitle,
-			isCompleted: false,
-		};
-
-		// todoList[todoList.length] = newTodo
-		// todoList.push()
-		setTodoList([newTodo, ...todoList]); // non-mutative way
-		// [] -> []
-		setTodoTitle("");
-	};
-
-	const updateTitleHandler = () => {
-		const updatedTodoList = todoList.map((item) => {
-			if (item.id === editableTodo.id) {
-				// only 1 bar
-				return { ...item, title: todoTitle };
-			}
-
-			return { ...item };
-		});
-
-		setTodoList(updatedTodoList);
-		setEditMode(false);
-		setEditableTodo(null);
-		setTodoTitle("");
-		// todoList = updatedTodoList
-	};
+	const { editMode, submitHandler, todoTitle, setTodoTitle } =
+		useContext(TodoContext);
 
 	return (
 		<form onSubmit={submitHandler}>
