@@ -7,10 +7,10 @@ import App2 from "./App2.jsx";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
-		{/* <TodoContextProvider>
+		<TodoContextProvider>
 			<App />
-		</TodoContextProvider> */}
-		<App2 />
+		</TodoContextProvider>
+		{/* <App2 /> */}
 	</StrictMode>,
 );
 

@@ -8,21 +8,25 @@ const TodoForm = () => {
 	//      i) props
 	//      ii) state
 
-	const { editMode, submitHandler, todoTitle, setTodoTitle } =
-		useContext(TodoContext);
+	const { todoStates, submitHandler, dispatch } = useContext(TodoContext);
 
 	return (
 		<form onSubmit={submitHandler}>
 			<input
 				type="text"
-				value={todoTitle}
+				value={todoStates.todoTitle}
 				// 2 way data binding
-				onChange={(event) => setTodoTitle(event.target.value)}
+				onChange={(event) =>
+					dispatch({
+						type: "CHANGE_INPUT_VALUE",
+						payload: event.target.value,
+					})
+				}
 				// todoTitle = event.target.value
 			/>
 			{/* {props.children} */}
 			<button type="submit">
-				{editMode === true ? "Update Todo" : "Create Todo"}
+				{todoStates.editMode === true ? "Update Todo" : "Create Todo"}
 			</button>
 		</form>
 	);

@@ -1,123 +1,64 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState } from "react";
+import { createContext, useReducer, useState } from "react";
+import { todoReducer } from "../reducers/todo";
 
 export const TodoContext = createContext();
 
-// data layer manage
-// data layer access
-// useReducer ->
+const initState = {
+	todoTitle: "",
+	todoList: [],
+	editMode: false,
+	editableTodo: null,
+	filterTerm: "all",
+};
 
-// {
+// fetch function
+// api call kore kivabe data fetch korben
+// asynchronous js
+const getAllPost = async () => {
+	// network latency
+	const res = await fetch(
+		"https://jsonplaceholder.typicode.com/posts?_limit=5",
+	);
+	const data = await res.json();
+	console.log(data);
+};
 
-// }
 const TodoContextProvider = (props) => {
 	const { children } = props;
-	const [todoTitle, setTodoTitle] = useState("");
-	const [todoList, setTodoList] = useState([]);
-	const [editMode, setEditMode] = useState(false);
-	const [editableTodo, setEditableTodo] = useState(null);
-	const [filterTerm, setFilterTerm] = useState("all");
+
+	// ekmatro state
+	const [todoStates, dispatch] = useReducer(todoReducer, initState);
 
 	const submitHandler = (event) => {
 		event.preventDefault();
 
-		if (!todoTitle.trim()) {
+		if (!todoStates.todoTitle.trim()) {
 			return alert(`Please enter a valid todo Title`);
 		}
 
-		editMode === true ? updateTitleHandler() : createHandler();
+		todoStates.editMode === true
+			? dispatch({ type: "UPDATE_TODO_TITLE" })
+			: dispatch({ type: "CREATE_TODO" });
 	};
 
-	const createHandler = () => {
-		const newTodo = {
-			id: Date.now() + "",
-			title: todoTitle,
-			isCompleted: false,
-		};
-
-		// todoList[todoList.length] = newTodo
-		// todoList.push()
-		setTodoList([newTodo, ...todoList]); // non-mutative way
-		// [] -> []
-		setTodoTitle("");
-	};
-
-	const updateTitleHandler = () => {
-		const updatedTodoList = todoList.map((item) => {
-			if (item.id === editableTodo.id) {
-				// only 1 bar
-				return { ...item, title: todoTitle };
-			}
-
-			return { ...item };
-		});
-
-		setTodoList(updatedTodoList);
-		setEditMode(false);
-		setEditableTodo(null);
-		setTodoTitle("");
-		// todoList = updatedTodoList
-	};
-
-	const filteredTodoList = todoList.filter((todo) => {
-		if (filterTerm === "completed") {
+	const filteredTodoList = todoStates.todoList.filter((todo) => {
+		if (todoStates.filterTerm === "completed") {
 			return todo.isCompleted === true;
-		} else if (filterTerm === "uncompleted") {
+		} else if (todoStates.filterTerm === "uncompleted") {
 			return todo.isCompleted === false;
 		} else {
 			return true;
 		}
 	});
 
-	const updateHandler = (item) => {
-		// item.isCompleted = !item.isCompleted;
-		// const itemIndex = todoList.findIndex((t) => t.id === item.id);
-		// todoList[itemIndex].isCompleted = !item.isCompleted;
-		const updatedTodoList = todoList.map((todo) => {
-			if (todo.id === item.id) {
-				// 1 bar e hobe
-				// todo.isCompleted = !todo.isCompleted
-				return { ...todo, isCompleted: !todo.isCompleted };
-			}
-			return { ...todo };
-		});
-		// non-mutative
-		setTodoList(updatedTodoList);
-		// todoList = updatedTodoList
-	};
-
-	const removeHandler = (todoId) => {
-		// todoId === 2
-		// 2 !== 2
-		// [{ id: 1 }, { id: 2 }, { id: 3 }];
-		const updatedList = todoList.filter((todo) => todo.id !== todoId);
-		setTodoList(updatedList);
-	};
-
-	const editHandler = (todo) => {
-		setEditMode(true);
-		setEditableTodo(todo);
-		setTodoTitle(todo.title);
-	};
-
 	return (
 		<TodoContext.Provider
 			value={{
-				todoTitle,
-				setTodoTitle,
-				todoList,
-				setTodoList,
-				editMode,
-				setEditMode,
-				editableTodo,
-				setEditableTodo,
-				filterTerm,
-				setFilterTerm,
+				todoStates,
 				submitHandler,
-				editHandler,
 				filteredTodoList,
-				updateHandler,
-				removeHandler,
+				dispatch,
 			}}
 		>
 			{children}
